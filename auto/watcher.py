@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -9,7 +10,7 @@ class ReloadHandler(FileSystemEventHandler):
         self.process = self.start_script()
 
     def start_script(self):
-        return subprocess.Popen(["py", self.script])
+        return subprocess.Popen([sys.executable, self.script])
     
     def restart_script(self):
         print(f"[auto]{self.script} changed, restarting...")
@@ -21,7 +22,7 @@ class ReloadHandler(FileSystemEventHandler):
             self.restart_script()
 
 def watch(script):
-    print("[auto] watching {script} for changes...")
+    print(f"[auto] watching {script} for changes...")
     event_handler = ReloadHandler(script)
     observer = Observer()
     observer.schedule(event_handler, path=".", recursive=False)
