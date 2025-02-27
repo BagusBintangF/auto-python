@@ -10,7 +10,7 @@ class ReloadHandler(FileSystemEventHandler):
         self.process = self.start_script()
 
     def start_script(self):
-        return subprocess.Popen([sys.executable, self.script])
+        return subprocess.Popen([sys.executable,"-i", self.script])
     
     def restart_script(self):
         print(f"[auto]{self.script} changed, restarting...")
